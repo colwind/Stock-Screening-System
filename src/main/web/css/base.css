@@ -1,0 +1,319 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+    font-weight: normal;
+    border: 0;
+    outline-style: none;
+    text-decoration: none;
+    font-style: normal;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: #333;
+}
+
+#chart div {
+    display: inline-block;
+    background: #4285F4;
+    width: 20px;
+    margin-right: 3px;
+}
+
+img,
+input {
+    display: block;
+}
+
+
+/*!* 设置滚动条的样式 *!*/
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+
+/* 滚动槽 */
+
+::-webkit-scrollbar-track {
+    border-radius: 2px;
+}
+
+
+/* 滚动条滑块 */
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #ddd;
+}
+
+body {
+    width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left_bar {
+    width: 1080px;
+}
+
+.left_bar .head {
+    display: flex;
+    padding: 20px 0;
+}
+
+.left_bar .head .left {
+    width: 100px;
+    text-align: center;
+}
+
+.left_bar .head .left h3 {
+    cursor: pointer;
+}
+
+.left_bar .head .left h3::after {
+    content: "";
+    display: none;
+    position: relative;
+    top: 12px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #636a7f;
+}
+
+.left_bar .head .left p {
+    font-size: 30px;
+}
+
+.left_bar .head .right {
+    flex: 1;
+    padding: 0 20px;
+}
+
+.left_bar .head .right table {
+    width: 100%;
+}
+
+.left_bar .head .right table tr td {
+    text-align: center;
+    border: 2px solid #ddd;
+    line-height: 30px;
+}
+
+
+/* .left_bar .head .right table tr td:nth-child(1n) {
+    color: #e52222;
+}
+
+.left_bar .head .right table tr td:nth-child(2n) {
+    color: green;
+} */
+
+.left_bar .head .right ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left_bar .head .right ul li {
+    width: 140px;
+}
+
+.left_bar .head .right ul li h3 {
+    text-align: center;
+    line-height: 30px;
+    margin-top: 20px;
+}
+
+.left_bar .head .right ul li img {
+    width: 100%;
+    height: 80px;
+    background: #ddd;
+}
+
+.left_bar .tab ol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.left_bar .tab ol li {
+    width: 120px;
+    line-height: 40px;
+    border-radius: 20px;
+    background: #ddd;
+    text-align: center;
+    margin: 0 200px;
+    cursor: pointer;
+}
+
+.left_bar .tab ol li.on {
+    color: #fff;
+    background: #e52222;
+}
+
+.left_bar .tab ul li {
+    display: none;
+}
+
+.left_bar .tab ul li:first-child {
+    display: block;
+}
+
+.left_bar .tab ul li .btn {
+    display: flex;
+    background: #f5f5f5;
+}
+
+.left_bar .tab ul li .btn span {
+    margin: 0 16px;
+    line-height: 40px;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+}
+
+.left_bar .tab ul li .btn span.on,
+.left_bar .tab ul li .btn span:hover {
+    color: #333;
+    border-bottom: 2px solid #e5434d;
+}
+
+.left_bar .tab ul li .tabulation {
+    position: relative;
+    height: 440px;
+    overflow-y: scroll;
+}
+
+.left_bar .tab ul li .tabulation .item {
+    display: none;
+}
+
+.left_bar .tab ul li .tabulation .item:first-child {
+    display: block;
+}
+
+.left_bar .tab ul li .tabulation .item table {
+    width: 100%;
+}
+
+.left_bar .tab ul li .tabulation .item table tr {
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.left_bar .tab ul li .tabulation .item table tr th {
+    color: #333;
+    font-size: 12px;
+    font-weight: bold;
+    height: 40px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.left_bar .tab ul li .tabulation .item table tr th div {
+    display: inline-block;
+    vertical-align: middle
+}
+
+.left_bar .tab ul li .tabulation .item table tr th div img {
+    margin: 1px 0;
+    width: 10px;
+}
+
+.left_bar .tab ul li .tabulation .item table tr td {
+    color: #666;
+    height: 60px;
+    text-align: center;
+}
+
+.left_bar .tab ul li .tabulation .item table tr td img {
+    margin: 0 auto;
+}
+
+.left_bar .tab ul li .tabulation .item table tr td span {
+    font-size: 12px;
+    text-align: center;
+    display: block;
+}
+
+.left_bar .tab ul li .tabulation .item table tr td i {
+    color: #e52222;
+}
+
+.left_bar .tab ul li .tabulation .item table tr td.on {
+    background: rgba(230, 57, 77, .06);
+}
+
+.right_bar {
+    width: 360px;
+    border-left: 1px solid #ddd;
+}
+
+.right_bar .tab ol {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+}
+
+.right_bar .tab ol li {
+    width: 50px;
+    text-align: center;
+    line-height: 30px;
+    background: #ddd;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.right_bar .tab ol li.on {
+    background: #e52222;
+    color: #fff;
+}
+
+.right_bar .tab ul li {
+    display: none;
+}
+
+.right_bar .tab ul li img {
+    width: 100%;
+    height: 200px;
+    background: #ddd;
+}
+
+.right_bar .tab ul li:first-child {
+    display: block;
+}
+
+.right_bar .ad img {
+    width: 100%;
+    height: 200px;
+}
+
+.right_bar .tabulation h3 {
+    font-weight: bold;
+    line-height: 40px;
+    border-bottom: 1px solid #ddd;
+    padding: 0 10px;
+}
+
+.right_bar .tabulation .scroll {
+    height: 300px;
+    overflow-y: scroll;
+}
+
+.right_bar .tabulation table {
+    width: 100%;
+}
+
+.right_bar .tabulation table tr {
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.right_bar .tabulation table tr td {
+    color: #666;
+    height: 40px;
+    text-align: center;
+}
