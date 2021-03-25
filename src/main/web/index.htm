@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="hint.css">
+    <title>Stock Recommend</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- <h1>你好，世界！</h1> -->
+
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        var mon = ["Mon", "Jun", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    </script>
+    
+    <div class="left_bar">
+        <div class="head">
+            <div class="left">
+                <h3>
+                    <script type="text/javascript">
+                        var date = new Date();
+                        document.write(mon[date.getMonth()]);
+                    </script>
+                </h3>
+                <p>
+                    <script type="text/javascript">
+                        var date = new Date();
+                        document.write(date.getDate());
+                    </script>
+                </p>
+                
+            </div>
+
+            <div class="right">
+                <!--
+                <h3>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
+                    Stock Selection Recommendation Software Based on Scala
+                </h3>
+                -->
+                <style>
+
+                </style>
+                <table style="color:#f12339;">
+                    <tr>
+                        <td style="color:#f12339;">Up</td>
+                        <td style="color:#1ea27e;">Down</td>
+                        <td style="color:#f12339;">Limit Up</td>
+                        <td style="color:#1ea27e;">Limit Down</td>
+                        <td style="color:#f12339;">Limit Up Used</td>
+                        <td style="color:#224071;">SH Index</td>
+                        <td style="color:#224071;">SZ Index</td>
+                        <td style="color:#224071;">GEB Index</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#f12339;">1428</td>
+                        <td style="color:#1ea27e;">2062</td>
+                        <td style="color:#f12339;">21</td>
+                        <td style="color:#1ea27e;">12</td>
+                        <td style="color:#f12339;">10</td>
+                        <td style="color:#f12339;">0.03</td>
+                        <td style="color:#f12339;">0.53</td>
+                        <td style="color:#f12339;">1.04</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#224071;">limit Up Ctn</td>
+                        <td style="color:#224071;">limit Up 1</td>
+                        <td style="color:#224071;">limit Up 2</td>
+                        <td style="color:#224071;">limit Up 3</td>
+                        <td style="color:#224071;">limit Up More</td>
+                        <td style="color:#224071;">Hit Rate 1 To 2(%)</td>
+                        <td style="color:#224071;">Hit Rate 2 To 3(%)</td>
+                        <td style="color:#224071;">Hit Rate 3 To 4(%)</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>15</td>
+                        <td>4</td>
+                        <td>0</td>
+                        <td>2</td>
+                        <td>17.39</td>
+                        <td>0.00</td>
+                        <td>50.00</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab">
+            <ol>
+                <li class="on">Daily Market</li>
+                <li>Stocks Screening</li>
+            </ol>
+            <ul>
+                <li>
+                    <div class="btn">
+                        <span class="on">Limit Up</span>
+                        <span>Limit Down</span>
+                        <span>Limit Up Continue</span>
+                        <span>Up Continue</span>
+                        <span>Limit Up Used</span>
+                        <span>STAR</span>
+                        <span>New</span>
+                    </div>
+                    <div class="tabulation">
+                        <div class="item">
+                            <table>
+                                
+                                <tr>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#upload1").bind("click", function() {
+                                                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                                                if (regex.test($("#fileUpload1").val().toLowerCase())) {
+                                                    if (typeof(FileReader) != "undefined") {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var table = $("<table />");
+                                                            var rows = e.target.result.split("\n");
+                                                            for (var i = 0; i < 35; i++) {
+                                                                var row = $("<tr />");
+                                                                var cells = rows[i].split(",");
+                                                                if (i == 0) {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<th />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                } else {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<td />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                }
+                                                                table.append(row);
+                                                            }
+                                                            $("#dvCSV1").html('');
+                                                            $("#dvCSV1").append(table);
+                                                        }
+                                                        reader.readAsText($("#fileUpload1")[0].files[0]);
+                                                    } else {
+                                                        alert("This browser does not support HTML5.");
+                                                    }
+                                                } else {
+                                                    alert("Please upload a valid CSV file.");
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div id="dvCSV1">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <table>
+                                <tr>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#upload2").bind("click", function() {
+                                                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                                                if (regex.test($("#fileUpload2").val().toLowerCase())) {
+                                                    if (typeof(FileReader) != "undefined") {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var table = $("<table />");
+                                                            var rows = e.target.result.split("\n");
+                                                            for (var i = 35; i < 65; i++) {
+                                                                var row = $("<tr />");
+                                                                var cells = rows[i].split(",");
+                                                                if (i == 35) {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<th />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                } else {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<td />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                }
+                                                                table.append(row);
+                                                            }
+                                                            $("#dvCSV2").html('');
+                                                            $("#dvCSV2").append(table);
+                                                        }
+                                                        reader.readAsText($("#fileUpload2")[0].files[0]);
+                                                    } else {
+                                                        alert("This browser does not support HTML5.");
+                                                    }
+                                                } else {
+                                                    alert("Please upload a valid CSV file.");
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div id="dvCSV2">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <table>
+                                <tr>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#upload3").bind("click", function() {
+                                                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                                                if (regex.test($("#fileUpload3").val().toLowerCase())) {
+                                                    if (typeof(FileReader) != "undefined") {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var table = $("<table />");
+                                                            var rows = e.target.result.split("\n");
+                                                            for (var i = 65; i < 77; i++) {
+                                                                var row = $("<tr />");
+                                                                var cells = rows[i].split(",");
+                                                                if (i == 65) {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<th />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                } else {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<td />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                }
+                                                                table.append(row);
+                                                            }
+                                                            $("#dvCSV3").html('');
+                                                            $("#dvCSV3").append(table);
+                                                        }
+                                                        reader.readAsText($("#fileUpload3")[0].files[0]);
+                                                    } else {
+                                                        alert("This browser does not support HTML5.");
+                                                    }
+                                                } else {
+                                                    alert("Please upload a valid CSV file.");
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div id="dvCSV3">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <table>
+                                
+                                <tr>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#upload4").bind("click", function() {
+                                                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                                                if (regex.test($("#fileUpload4").val().toLowerCase())) {
+                                                    if (typeof(FileReader) != "undefined") {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var table = $("<table />");
+                                                            var rows = e.target.result.split("\n");
+                                                            for (var i = 77; i < 612; i++) {
+                                                                var row = $("<tr />");
+                                                                var cells = rows[i].split(",");
+                                                                if (i == 77) {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<th />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                } else {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<td />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                }
+                                                                table.append(row);
+                                                            }
+                                                            $("#dvCSV4").html('');
+                                                            $("#dvCSV4").append(table);
+                                                        }
+                                                        reader.readAsText($("#fileUpload4")[0].files[0]);
+                                                    } else {
+                                                        alert("This browser does not support HTML5.");
+                                                    }
+                                                } else {
+                                                    alert("Please upload a valid CSV file.");
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div id="dvCSV4">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <table>
+                                
+                                <tr>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#upload5").bind("click", function() {
+                                                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                                                if (regex.test($("#fileUpload5").val().toLowerCase())) {
+                                                    if (typeof(FileReader) != "undefined") {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var table = $("<table />");
+                                                            var rows = e.target.result.split("\n");
+                                                            for (var i = 612; i < 626; i++) {
+                                                                var row = $("<tr />");
+                                                                var cells = rows[i].split(",");
+                                                                if (i == 612) {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<th />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                } else {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<td />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                }
+                                                                table.append(row);
+                                                            }
+                                                            $("#dvCSV5").html('');
+                                                            $("#dvCSV5").append(table);
+                                                        }
+                                                        reader.readAsText($("#fileUpload5")[0].files[0]);
+                                                    } else {
+                                                        alert("This browser does not support HTML5.");
+                                                    }
+                                                } else {
+                                                    alert("Please upload a valid CSV file.");
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div id="dvCSV5">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <table>
+                                
+                                <tr>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#upload6").bind("click", function() {
+                                                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                                                if (regex.test($("#fileUpload6").val().toLowerCase())) {
+                                                    if (typeof(FileReader) != "undefined") {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var table = $("<table />");
+                                                            var rows = e.target.result.split("\n");
+                                                            for (var i = 626; i < 683; i++) {
+                                                                var row = $("<tr />");
+                                                                var cells = rows[i].split(",");
+                                                                if (i == 626) {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<th />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                } else {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<td />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                }
+                                                                table.append(row);
+                                                            }
+                                                            $("#dvCSV6").html('');
+                                                            $("#dvCSV6").append(table);
+                                                        }
+                                                        reader.readAsText($("#fileUpload6")[0].files[0]);
+                                                    } else {
+                                                        alert("This browser does not support HTML5.");
+                                                    }
+                                                } else {
+                                                    alert("Please upload a valid CSV file.");
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div id="dvCSV6">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <table>
+                                
+                                <tr>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#upload7").bind("click", function() {
+                                                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                                                if (regex.test($("#fileUpload7").val().toLowerCase())) {
+                                                    if (typeof(FileReader) != "undefined") {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var table = $("<table />");
+                                                            var rows = e.target.result.split("\n");
+                                                            for (var i = 683; i < 690; i++) {
+                                                                var row = $("<tr />");
+                                                                var cells = rows[i].split(",");
+                                                                if (i == 683) {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<th />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                } else {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<td />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                }
+                                                                table.append(row);
+                                                            }
+                                                            $("#dvCSV7").html('');
+                                                            $("#dvCSV7").append(table);
+                                                        }
+                                                        reader.readAsText($("#fileUpload7")[0].files[0]);
+                                                    } else {
+                                                        alert("This browser does not support HTML5.");
+                                                    }
+                                                } else {
+                                                    alert("Please upload a valid CSV file.");
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div id="dvCSV7">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="btn">
+                        <span class="on">High Volume Open</span>
+                        <span>Long Upper Shadow</span>
+                        <span>MA Ups</span>
+                        <span>Premium Conver Bonds</span>
+                        <span>Trend Upper Shadow</span>
+                    </div>
+                    <div class="tabulation">
+                        <div class="item">
+                            <table>                              
+                                <tr>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#upload11").bind("click", function() {
+                                                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                                                if (regex.test($("#fileUpload11").val().toLowerCase())) {
+                                                    if (typeof(FileReader) != "undefined") {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var table = $("<table />");
+                                                            var rows = e.target.result.split("\n");
+                                                            for (var i = 690; i < 711; i++) {
+                                                                var row = $("<tr />");
+                                                                var cells = rows[i].split(",");
+                                                                if (i == 690) {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<th />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                } else {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<td />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                }
+                                                                table.append(row);
+                                                            }
+                                                            $("#dvCSV11").html('');
+                                                            $("#dvCSV11").append(table);
+                                                        }
+                                                        reader.readAsText($("#fileUpload11")[0].files[0]);
+                                                    } else {
+                                                        alert("This browser does not support HTML5.");
+                                                    }
+                                                } else {
+                                                    alert("Please upload a valid CSV file.");
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div id="dvCSV11">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <table>
+                                <tr>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#upload12").bind("click", function() {
+                                                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                                                if (regex.test($("#fileUpload12").val().toLowerCase())) {
+                                                    if (typeof(FileReader) != "undefined") {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var table = $("<table />");
+                                                            var rows = e.target.result.split("\n");
+                                                            for (var i = 711; i < 732; i++) {
+                                                                var row = $("<tr />");
+                                                                var cells = rows[i].split(",");
+                                                                if (i == 711) {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<th />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                } else {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<td />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                }
+                                                                table.append(row);
+                                                            }
+                                                            $("#dvCSV12").html('');
+                                                            $("#dvCSV12").append(table);
+                                                        }
+                                                        reader.readAsText($("#fileUpload12")[0].files[0]);
+                                                    } else {
+                                                        alert("This browser does not support HTML5.");
+                                                    }
+                                                } else {
+                                                    alert("Please upload a valid CSV file.");
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div id="dvCSV12">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <table>
+                                <tr>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#upload13").bind("click", function() {
+                                                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                                                if (regex.test($("#fileUpload13").val().toLowerCase())) {
+                                                    if (typeof(FileReader) != "undefined") {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var table = $("<table />");
+                                                            var rows = e.target.result.split("\n");
+                                                            for (var i = 732; i < 753; i++) {
+                                                                var row = $("<tr />");
+                                                                var cells = rows[i].split(",");
+                                                                if (i == 732) {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<th />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                } else {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<td />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                }
+                                                                table.append(row);
+                                                            }
+                                                            $("#dvCSV13").html('');
+                                                            $("#dvCSV13").append(table);
+                                                        }
+                                                        reader.readAsText($("#fileUpload13")[0].files[0]);
+                                                    } else {
+                                                        alert("This browser does not support HTML5.");
+                                                    }
+                                                } else {
+                                                    alert("Please upload a valid CSV file.");
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div id="dvCSV13">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <table>
+                                
+                                <tr>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#upload14").bind("click", function() {
+                                                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                                                if (regex.test($("#fileUpload14").val().toLowerCase())) {
+                                                    if (typeof(FileReader) != "undefined") {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var table = $("<table />");
+                                                            var rows = e.target.result.split("\n");
+                                                            for (var i = 753; i < 774; i++) {
+                                                                var row = $("<tr />");
+                                                                var cells = rows[i].split(",");
+                                                                if (i == 753) {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<th />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                } else {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<td />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                }
+                                                                table.append(row);
+                                                            }
+                                                            $("#dvCSV14").html('');
+                                                            $("#dvCSV14").append(table);
+                                                        }
+                                                        reader.readAsText($("#fileUpload14")[0].files[0]);
+                                                    } else {
+                                                        alert("This browser does not support HTML5.");
+                                                    }
+                                                } else {
+                                                    alert("Please upload a valid CSV file.");
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div id="dvCSV14">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <table> 
+                                <tr>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#upload15").bind("click", function() {
+                                                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                                                if (regex.test($("#fileUpload15").val().toLowerCase())) {
+                                                    if (typeof(FileReader) != "undefined") {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var table = $("<table />");
+                                                            var rows = e.target.result.split("\n");
+                                                            for (var i = 774; i < 785; i++) {
+                                                                var row = $("<tr />");
+                                                                var cells = rows[i].split(",");
+                                                                if (i == 774) {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<th />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                } else {
+                                                                    for (var j = 0; j < cells.length; j++) {
+                                                                        var cell = $("<td />");
+                                                                        cell.html(cells[j]);
+                                                                        row.append(cell);
+                                                                    }
+                                                                }
+                                                                table.append(row);
+                                                            }
+                                                            $("#dvCSV15").html('');
+                                                            $("#dvCSV15").append(table);
+                                                        }
+                                                        reader.readAsText($("#fileUpload15")[0].files[0]);
+                                                    } else {
+                                                        alert("This browser does not support HTML5.");
+                                                    }
+                                                } else {
+                                                    alert("Please upload a valid CSV file.");
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div id="dvCSV15">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <div>
+            <tr>
+                <div>
+                    <input type="file" id="fileUpload1" />
+                    <input type="button" id="upload1" value="OK" />
+                
+                    <input type="file" id="fileUpload2" />
+                    <input type="button" id="upload2" value="OK" />
+                
+                    <input type="file" id="fileUpload3" />
+                    <input type="button" id="upload3" value="OK" />
+                
+                    <input type="file" id="fileUpload4" />
+                    <input type="button" id="upload4" value="OK" />
+                
+                    <input type="file" id="fileUpload5" />
+                    <input type="button" id="upload5" value="OK" />
+                
+                    <input type="file" id="fileUpload6" />
+                    <input type="button" id="upload6" value="OK" />
+                
+                    <input type="file" id="fileUpload7" />
+                    <input type="button" id="upload7" value="OK" />
+
+                    <input type="file" id="fileUpload11" />
+                    <input type="button" id="upload11" value="OK" />
+                    <input type="file" id="fileUpload12" />
+                    <input type="button" id="upload12" value="OK" />
+                    <input type="file" id="fileUpload13" />
+                    <input type="button" id="upload13" value="OK" />
+                    <input type="file" id="fileUpload14" />
+                    <input type="button" id="upload14" value="OK" />
+                    <input type="file" id="fileUpload15" />
+                    <input type="button" id="upload15" value="OK" />
+                </div>
+            </tr>
+        </div>
+
+
+
+    </div>
+    <div class="right_bar">
+    <div class="tab">
+        <!--<p><a class="btn btn-primary btn-lg" href="#" role="button">China High Speed Railway Technology</a></p>-->
+        <h3>
+            <span class="label label-primary">China High Speed Railway Technology</span>
+        </h3>
+        <table style="color:#f12339;">
+            <tr>
+                <th width="140pc", style="color:#224071;">CODE</th>
+                <th width="200pc">000008</th>
+            </tr>
+            <tr>
+                <th style="color:#224071;">CHANGE</th>
+                <th>-0.01</th>
+            </tr>
+            <tr>
+                <th style="color:#224071;">PRICE</th>
+                <th>3.51</th>
+            </tr>
+            <tr>
+                <th style="color:#224071;">AMOUNT</th>
+                <th>687258</th>
+            </tr>
+        </table>
+        
+        <ol>
+            <li class="on">Price</li>
+            <li>Amount</li>
+        </ol>
+        <ul>
+            <li>
+                <img src="images/000008_p.jpg" alt="">
+            </li>
+            <li>
+                <img src="images/000008_a.jpg" alt="">
+            </li>
+        </ul>
+    </div>
+    <!--
+    <div class="ad">
+       <img src="images/p5.jpg" alt="">
+    </div> 
+    -->
+    <div class="tabulation">
+        <!--<h3>China High Speed Railway Technology</h3>-->
+        <div class="scroll">
+
+            <script type="text/javascript">
+                var displ = ["","","","","","","","","","","","","","",""," ","","","","","",""];
+                var dispr = ["","","","","","","","","","","","","","","","","","","","","",""];
+                var ctable = "<table>"
+                for (var i=0; i<displ.length; i++){
+                    ctable += "<tr><td>" + displ[i] + "</td><td>" + dispr[i] + "</td></tr>";
+                }
+                ctable += "</table>";
+                $("#cinfor").html(ctable);
+            </script>
+            <div id="cinfor">
+            </div>
+
+            
+            <table>
+                <tr><td>Code:</td><td>000008</td></tr>
+                <tr><td>name:</td><td>神州高铁</td></tr>
+                <tr><td>pe:</td><td>30.0278</td></tr>
+                <tr><td>pe_ttm:</td><td>27.8938</td></tr>
+                <tr><td>pb:</td><td>1.3545</td></tr>
+                <tr><td>ps:</td><td>3.8054</td></tr>
+                <tr><td>ps_ttm:</td><td>3.4424</td></tr>
+                <tr><td>total_share:</td><td>278079.5346</td></tr>
+                <tr><td>float_share:</td><td>259377.0878</td></tr>
+                <tr><td>free_share:</td><td>167968.2165</td></tr>
+                <tr><td>total_mv:</td><td>976059.1664</td></tr>
+                <tr><td>circ_mv:</td><td>910413.5782</td></tr>
+                <tr><td>area:</td><td>Beijing</td></tr>
+                <tr><td>industry:</td><td>Transportation Device</td></tr>
+                <tr><td>fullname:</td><td>神州高铁技术股份有限公司</td></tr>
+                <tr><td>English Name:</td><td>China High Speed Railway Technology Co., Ltd.</td></tr>
+                <tr><td>market:</td><td>Mainboard</td></tr>
+                <tr><td>exchange:</td><td>SSE</td></tr>
+                <tr><td>curr_type:</td><td>CNY</td></tr>
+                <tr><td>list_status:</td><td>L</td></tr>
+                <tr><td>list_date:</td><td>19920507</td></tr>
+               
+            </table>
+        
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+<script>
+    $('.left_bar .tab ol li').click(function () {
+        $(this).addClass('on').siblings().removeClass()
+        $('.left_bar .tab ul li').hide().eq($(this).index()).show()
+    })
+
+    $('.left_bar .tab ul li .btn span').click(function () {
+        $(this).addClass('on').siblings().removeClass()
+        $(this).parent('.btn').siblings('.tabulation').children('.item').hide().eq($(this).index()).show()
+    })
+
+    $('.right_bar .tab ol li').click(function () {
+        $(this).addClass('on').siblings().removeClass()
+        $('.right_bar .tab ul li').hide().eq($(this).index()).show()
+    })
+    // new Vue({
+    //     el: '#app'
+    // })
+</script>
+
+</html>
