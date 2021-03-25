@@ -1,0 +1,4 @@
+name, value
+SH_index, 0.03
+SZ_index, 0.53
+GEB_index, 1.04

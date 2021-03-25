@@ -1,0 +1,4 @@
+name, value
+SH_index, 0.72
+SZ_index, -0.01
+GEB_index, -1.07
